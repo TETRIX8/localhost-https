@@ -23,9 +23,8 @@ log_warning() {
 
 # --- Красивый баннер при запуске ---
 clear
-echo -e "${PURPLE}"
-echo "        (\_._/)     "
-echo "        ( o o )     ${CYAN}AkProject${NC}"
+echo -e "${PURPLE}        (\\_._/)${NC}"
+echo -e "${PURPLE}        ( o o )     ${CYAN}AkProject${NC}"
 echo -e "${PURPLE}        (> ^ <)     ${YELLOW}Запуск скрипта...${NC}"
 echo ""
 
@@ -38,6 +37,7 @@ for i in {1..3}; do
     echo -ne "\r"
     sleep 0.5
 done
+
 echo -e "${GREEN}Готово!${NC}"
 echo ""
 
@@ -120,6 +120,6 @@ certbot --nginx -d $DOMAIN --non-interactive --agree-tos -m $EMAIL --redirect
 log_success "================================================================="
 log_success "Настройка сервера успешно завершена!"
 log_success "Ваше приложение теперь доступно по безопасному адресу:"
-echo -e "${YELLOW}https://"$DOMAIN"${NC}"
+echo -e "${YELLOW}https://$DOMAIN${NC}"
 log_success "================================================================="
 echo ""
