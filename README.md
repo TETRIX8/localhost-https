@@ -1,4 +1,11 @@
 
+
+
+```bash
+bash <(curl -s https://raw.githubusercontent.com/TETRIX8/localhost-https/main/setup_server.sh)
+```
+
+
 # Автоматическая настройка Nginx + SSL с Let's Encrypt для приложения
 
 Этот проект — это **Bash-скрипт** для автоматической настройки веб-сервера **Nginx**  
