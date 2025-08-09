@@ -1,12 +1,11 @@
 #!/bin/bash
 
-# Скрипт для полной автоматической настройки веб-сервера Nginx
-# с SSL-сертификатом от Let's Encrypt для вашего приложения.
-
-# --- Цвета для красивого вывода ---
+# --- Цвета ---
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
+PURPLE='\033[0;35m'
+CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
 # --- Функция для вывода сообщений ---
@@ -21,6 +20,26 @@ log_success() {
 log_warning() {
     echo -e "${YELLOW}[WARNING] $1${NC}"
 }
+
+# --- Красивый баннер при запуске ---
+clear
+echo -e "${PURPLE}"
+echo "        (\_._/)     "
+echo "        ( o o )     ${CYAN}AkProject${NC}"
+echo -e "${PURPLE}        (> ^ <)     ${YELLOW}Запуск скрипта...${NC}"
+echo ""
+
+# Анимация точек
+for i in {1..3}; do
+    echo -ne "${BLUE}Загрузка"
+    for j in $(seq 1 $i); do
+        echo -ne "."
+    done
+    echo -ne "\r"
+    sleep 0.5
+done
+echo -e "${GREEN}Готово!${NC}"
+echo ""
 
 # --- Проверка, что скрипт запущен с правами sudo ---
 if [ "$EUID" -ne 0 ]; then
@@ -57,7 +76,6 @@ apt-get install nginx -y
 log_info "Создаем конфигурационный файл для вашего домена: $DOMAIN"
 CONFIG_FILE="/etc/nginx/sites-available/$DOMAIN"
 
-# Создаем файл конфигурации с помощью cat и EOF
 cat > $CONFIG_FILE <<EOF
 server {
     listen 80;
@@ -84,9 +102,7 @@ systemctl restart nginx
 
 # --- Шаг 4: Установка и настройка Certbot ---
 log_info "Устанавливаем Certbot через snap (самый надежный способ)..."
-# Удаляем старые версии, если они есть
 apt-get remove certbot -y &>/dev/null
-# Устанавливаем snapd, если его нет
 if ! command -v snap &> /dev/null; then
     apt-get install snapd -y
 fi
@@ -107,5 +123,3 @@ log_success "Ваше приложение теперь доступно по б
 echo -e "${YELLOW}https://"$DOMAIN"${NC}"
 log_success "================================================================="
 echo ""
-log_info "Не забудьте обновить 'destination' в вашем файле vercel.json на этот новый адрес."
-
